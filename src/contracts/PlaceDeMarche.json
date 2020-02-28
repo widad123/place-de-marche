@@ -1,0 +1,110 @@
+{
+  "contractName": "PlaceDeMarche",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/khati/Desktop/Defi-II/placedemarche/contracts/PlaceDeMarche.sol\":\"PlaceDeMarche\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/khati/Desktop/Defi-II/placedemarche/contracts/PlaceDeMarche.sol\":{\"keccak256\":\"0x49596496b7c2b2ce3111d0582db4b9e62652bffdf0208a4edae2cc43baf6bbb8\",\"urls\":[\"bzz-raw://cb6b0c1415c6a38256384ceef70f807b6ed6d848202d355457aa5948f1194d1b\",\"dweb:/ipfs/QmeJqubM6wZenX4vdceQ42cnLDxUW8YBJ1LbVLz5nHtDaQ\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603e80601d6000396000f3fe6080604052600080fdfea265627a7a72315820a99446dfbee7f3c660a737c6278832d32b124e0e608f2cccf0220d863c1a982c64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a72315820a99446dfbee7f3c660a737c6278832d32b124e0e608f2cccf0220d863c1a982c64736f6c63430005100032",
+  "sourceMap": "27:28:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:28:1;;;;;;;",
+  "deployedSourceMap": "27:28:1:-;;;;;",
+  "source": "pragma solidity 0.5.16;\r\n\r\ncontract PlaceDeMarche{\r\n\r\n}",
+  "sourcePath": "C:\\Users\\khati\\Desktop\\Defi-II\\placedemarche\\contracts\\PlaceDeMarche.sol",
+  "ast": {
+    "absolutePath": "/C/Users/khati/Desktop/Defi-II/placedemarche/contracts/PlaceDeMarche.sol",
+    "exportedSymbols": {
+      "PlaceDeMarche": [
+        39
+      ]
+    },
+    "id": 40,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 38,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 39,
+        "linearizedBaseContracts": [
+          39
+        ],
+        "name": "PlaceDeMarche",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 40,
+        "src": "27:28:1"
+      }
+    ],
+    "src": "0:55:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/khati/Desktop/Defi-II/placedemarche/contracts/PlaceDeMarche.sol",
+    "exportedSymbols": {
+      "PlaceDeMarche": [
+        39
+      ]
+    },
+    "id": 40,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 38,
+        "literals": [
+          "solidity",
+          "0.5",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 39,
+        "linearizedBaseContracts": [
+          39
+        ],
+        "name": "PlaceDeMarche",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 40,
+        "src": "27:28:1"
+      }
+    ],
+    "src": "0:55:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xF2671c7F1b563ffB7e9aaf49a27857319B15805C",
+      "transactionHash": "0x9eab5db6337b72f638778fc9b41d9be2972a2257e84b36e106bde59b3788d7c9"
+    }
+  },
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-02-23T17:53:14.589Z",
+  "networkType": "ethereum",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
