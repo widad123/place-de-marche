@@ -168,6 +168,7 @@ function postuler(uint256 _indice)
         chekDemande(_indice)
         etatDemande( _indice,Etat.OUVERTE)
         {
+            require(msg.sender!=listeDemande[_indice].entreprise,'vous etes entreprise');
         //avant tout faut verifier l'etat de la demande
             require(listeDemande[_indice].miniReputation<=listeUtilisateur[msg.sender].reputation,'pas assez dexperience');
             listeDemande[_indice].listeCandidats[msg.sender];
@@ -178,6 +179,7 @@ function postuler(uint256 _indice)
 function accepterOffre(uint256 _indice,address _add)
         public
         estEntreprise(_indice) 
+        estCandidat(_indice,_add)
         chekDemande(_indice)
         etatDemande( _indice,Etat.OUVERTE)
         nextEtatDemande(_indice,Etat.ENCOURS)
