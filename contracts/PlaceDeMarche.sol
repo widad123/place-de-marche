@@ -1,17 +1,16 @@
-pragma solidity 0.5.16;
+pragma solidity 0.6.2;
 
-import '@openzeppelin\contracts\math\SafeMath.sol';
+import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol';
 
-contract PlaceDeMarche is {
-    using SafeMath for uint256;
-       
-        
+contract placeDeMarche{
+    
+      using SafeMath for uint256;
+    
     struct Utilisateur{
         uint256 reputation;
         string nom;
         bool estUtilisateur;
         bool accepte;
-        
     }
     
     struct Demande{
@@ -29,44 +28,77 @@ contract PlaceDeMarche is {
             
     }
     
-       
     address owner;
     mapping(address =>uint256)public balance;
     mapping (address=>Utilisateur) public listeUtilisateur;
     mapping (uint256=>Demande) public listeDemande;
     
     uint256 indice;
-    uint256 frais=1.02 ether;
+    uint256 frais=102;
     uint256 compteurIndice;
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
     
     enum Etat {OUVERTE, ENCOURS, FERMEE}
     Etat etat;
-
     
+//constructor
+    constructor()public{
+        owner=msg.sender;
+    }
+    
+    //l'etat de la demande
+
     modifier etatDemande(Etat _etat){
         require(etat == _etat,'pas possible');
         _;
     }
     
+    //fonction pour passer à l'etat suivante
     function nextEtat()internal{
         etat=Etat(uint(etat)+1);
     }
     
+    //passer à l'eta suivante apres l'execution de la fonction
     modifier nextEtatDemande(){
         _;
         nextEtat();
     }
  
+ //fonction pour véridier si c'est un utilisateurs
+modifier estUtilisateur(address _adress){
+    bool estUtilisateur=listeUtilisateur[_adress].estUtilisateur;
+     require(estUtilisateur,'pas utilisateur');
+        estUtilisateur = true;
+        _;
+}
 
-    constructor()public{
-        owner=msg.sender;
-    }
+modifier chekDemande(uint256 _indice){
+    bool estDemande=listeDemande[_indice].estDemande;
+  require(estDemande,'pas Demande');
+    estDemande=true;
+        _;
+}
+
+
+modifier estCandidat(uint256 _indice,address _add){
+    bool estCandidat = listeDemande[_indice].listeCandidats[_add].accepte;
+     require(estCandidat,'pas Candidat');
+        estCandidat = true;
+        _;
+}
+
+modifier estEntreprise(uint256 _indice){
+    address entreprise= listeDemande[_indice].entreprise;
+    bool estEntreprise ;
+     require(entreprise==msg.sender,'pas entreprise');
+        estEntreprise= true;
+        _;
+}
 
     //inscrir un utilisateur
-    function inscription (string memory nom,uint256 _experience)public pasUtilisateur(msg.sender){
+    function inscription (string memory nom,uint256 _experience)public{
+        require(!listeUtilisateur[msg.sender].estUtilisateur);
         uint256 reputation=experience(_experience);
        Utilisateur memory nouveauUtilisateur=Utilisateur(reputation,nom,true,false);
        listeUtilisateur[msg.sender]=nouveauUtilisateur;
@@ -86,31 +118,15 @@ contract PlaceDeMarche is {
          return exp;
     }
     
-//fonction pour véridier si c'est un utilisateurs
-modifier estUtilisateur(address _adress){
-   require(listeUtilisateur[_adress].estUtilisateur,"Already User");
-   _;  
-}
 
-modifier pasUtilisateur(address _adress){
-   require(!listeUtilisateur[_adress].estUtilisateur,"Already User");
-   _;  
-}
 
 function balanceOf()external view returns(uint256){
     return address(this).balance;
 }
 
-
-modifier chekDemande(uint256 _indice){
-  require(listeDemande[_indice].estDemande);
-        _;
-}
-
-
 function payer(uint256 _somme) private{
     uint256 somme=_somme;
-    require(msg.value==somme.mul(frais),'Pas assez de ETH');
+    require(msg.value==somme.mul(frais),'Pas assez de WEI');
     balance[owner]=balance[owner].add(msg.value);
 }
 
@@ -122,7 +138,6 @@ function remunerer(uint256 _indice)private{
 }
 
 function ajouterDemande(string calldata description,uint256 miniReputation,uint256 _delai, uint256 remuniration) external payable estUtilisateur(msg.sender){
-    require(msg.data.length == 0);
     payer(remuniration);
     uint256 startTime;
     Demande memory nouvelleDemande=Demande(msg.sender,_delai,startTime,miniReputation,remuniration,description,"",Etat.OUVERTE,true,false);
@@ -131,9 +146,14 @@ function ajouterDemande(string calldata description,uint256 miniReputation,uint2
     compteurIndice++;
 }
 
-function listerDemande()public view{
+
+function listerDemande () public view returns(string memory ,uint256){
+    uint256 miniReputation;
+    string memory description;
     for(uint256 i=0;i<compteurIndice;i++){
-        listeDemande[i];
+        miniReputation=listeDemande[i].miniReputation;
+        description=listeDemande[i].description;
+      return (description,miniReputation);
     }
 }
 
@@ -146,7 +166,7 @@ function postuler(uint256 _indice) public estUtilisateur(msg.sender) chekDemande
 }
 
 
-function accepterOffre(uint256 _indice,address _add) public estUtilisateur(msg.sender) chekDemande(_indice) etatDemande(Etat.OUVERTE) nextEtatDemande {
+function accepterOffre(uint256 _indice,address _add) public estEntreprise(_indice) chekDemande(_indice) etatDemande(Etat.OUVERTE) nextEtatDemande {
    uint256 startTime=listeDemande[_indice].startTime=now;
    listeDemande[_indice].listeCandidats[_add].accepte=true;
        //envoi event au candidat
@@ -154,21 +174,22 @@ function accepterOffre(uint256 _indice,address _add) public estUtilisateur(msg.s
 
 
 
-function checkDemande(uint256 _indice,address _add)private  estUtilisateur(msg.sender) chekDemande(_indice) etatDemande(Etat.ENCOURS) returns(bool){
+
+function checkDemande(uint256 _indice,address _add)private estEntreprise(_indice) estCandidat( _indice, _add) chekDemande(_indice) etatDemande(Etat.ENCOURS) returns(bool){
     uint256 startTime=listeDemande[_indice].startTime;
     uint256 delai=startTime+listeDemande[_indice].delai;
      if(delai<now){
-       if(!listeDemande[indice].estLivre){
+       require(!listeDemande[_indice].estLivre);
            listeDemande[_indice].listeCandidats[_add].reputation--;
            //event informer candidat sanction
-       }
+           return false;
+     }else{
+         return true;
      }
 }
 
-
-function livraison(string memory _lien,uint256 _indice) public estUtilisateur(msg.sender) chekDemande(_indice) etatDemande(Etat.ENCOURS) nextEtatDemande{
-    require(!listeDemande[indice].estLivre);
-    require(msg.sender==listeDemande[indice].entreprise);
+function livraison(string memory _lien,uint256 _indice) public estCandidat( _indice,msg.sender) chekDemande(_indice) etatDemande(Etat.ENCOURS) nextEtatDemande{
+    require(!listeDemande[indice].estLivre,'deja livre');
     string memory lien = _lien;
     listeDemande[_indice].lien=lien;//faut hacher le lien
     //event pour prevenir lentreprise
