@@ -2,7 +2,7 @@ pragma solidity ^0.5.11;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
-contract placeDeMarche{
+contract PlaceDeMarche{
     
       using SafeMath for uint256;
     
@@ -146,7 +146,7 @@ function ajouterDemande(string calldata description,uint256 miniReputation,uint2
         indice++;
         compteurIndice++;
     }
-
+/*
 function listerDemande () 
         public 
         view
@@ -161,6 +161,7 @@ function listerDemande ()
             }
         }
 
+*/
 function postuler(uint256 _indice) 
         public 
         view
