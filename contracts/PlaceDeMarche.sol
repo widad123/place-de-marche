@@ -1,6 +1,6 @@
-pragma solidity 0.6.2;
+pragma solidity ^0.5.11;
 
-import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/math/SafeMath.sol';
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 contract placeDeMarche{
     
@@ -227,3 +227,4 @@ function livraison(string memory _lien,uint256 _indice)
 
 
 }
+
